@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Raise a Complaint</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="complaint_text">Complaint</label>
+            <textarea class="form-control" id="complaint_text" name="complaint_text" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+</div>
+{% endblock %}

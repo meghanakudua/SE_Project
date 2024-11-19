@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h4>Block {{ employee.block_no }}:</h4>
+    <h1 class="display-4">Welcome, {{ employee.emp_name }}!</h1>
+    <a href="{{ url_for('active_complaints', emp_id=employee.emp_id) }}" class="btn btn-primary">Active Complaints</a>
+    <a href="{{ url_for('past_complaints', emp_id=employee.emp_id) }}" class="btn btn-secondary">Past Complaints</a>
+
+    {% if employee.emp_type == 'staff' and block_admin %}
+        <h3>Block Admin: {{ block_admin.emp_name }}</h3>
+    {% endif %}
+</div>
+{% endblock %}

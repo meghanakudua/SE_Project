@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Complaints</h2>
+    <table class="table table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Complaint Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if complaints %}
+                {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ complaint.details }}</td>
+                        <td>{{ complaint.complaint_status }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="2">No complaints found.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

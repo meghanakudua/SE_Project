@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Past Complaints</h2>
+    <ul class="list-group">
+        {% for complaint in complaints %}
+            <li class="list-group-item">{{ complaint.details }}</li>
+        {% else %}
+            <li class="list-group-item">No resolved complaints available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

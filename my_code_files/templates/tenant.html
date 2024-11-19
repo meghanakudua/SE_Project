@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+        color: black;
+        text-align: center;
+        padding-top: 50px;
+    }
+    h1 {
+        margin-bottom: 30px;
+    }
+</style>
+
+<h1>Welcome, {{ tenant.ten_name }}!</h1>
+<p class="lead">Here’s an overview of your room and owner details.</p>
+
+<!-- Raise Complaint and View Complaints Buttons -->
+<a href="{{ url_for('raise_complaint', tenant_id=tenant.tenant_id) }}" class="btn btn-primary">Raise Complaint</a>
+<a href="{{ url_for('view_complaints', tenant_id=tenant.tenant_id) }}" class="btn btn-secondary">View Complaints</a>
+
+<!-- Tenant Information Table -->
+<div class="table-responsive">
+    <table class="table table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Block Number</th>
+                <th>Owner Name</th>
+                <th>Owner Contact</th>
+                <th>Room Type</th> <!-- Added Room Type column -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ room.room_no }}</td>
+                <td>{{ room.block_no }}</td>
+                <td>{{ owner.owner_name }}</td>
+                <td>{{ owner.contact_no }}</td>
+                <td>{{ room.type }}</td> <!-- Display Room Type -->
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Rental Agreement and Payment Information -->
+<div class="mt-5">
+    <h2>Rental Information</h2>
+    <p>Agreement Expiration Date: {{ tenant.agreement_expiration_date }}</p>
+    <p>Payment Status: {{ payment.payment_status if payment else 'N/A' }}</p>
+
+    {% if tenant.rental_agreement_status == 'expired' %}
+        <form action="{{ url_for('renew_agreement', tenant_id=tenant.tenant_id) }}" method="POST">
+            <button type="submit" class="btn btn-warning">Renew Agreement</button>
+        </form>
+    {% elif payment and payment.payment_status == 'pending' %}
+        <form action="{{ url_for('make_payment', tenant_id=tenant.tenant_id, amount=payment.amount) }}" method="POST">
+            <button type="submit" class="btn btn-success">Make Payment - {{ payment.amount }}</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

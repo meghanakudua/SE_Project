@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa; /* Light background color */
+        color: black; /* Set text color to black */
+        text-align: center; /* Center the text */
+        padding-top: 50px; /* Add some space at the top */
+    }
+    h1 {
+        margin-bottom: 30px; /* Space below the heading */
+    }
+</style>
+
+<h1>WELCOME TO APARTMENT MANAGER :))</h1>
+<img src="{{ url_for('static', filename='images/apartment.png') }}" width="300" alt="Apartment Image">
+
+<div class="container mt-5">
+    
+    <div class="d-grid gap-2 d-md-block">
+        <a href="{{ url_for('owner_login') }}" class="btn btn-primary btn-lg mx-2">Owner Login</a>
+        <a href="{{ url_for('tenant_login') }}" class="btn btn-info btn-lg mx-2">Tenant Login</a>
+        <a href="{{ url_for('employee_login') }}" class="btn btn-secondary btn-lg mx-2">Employee Login</a>
+    </div>
+</div>
+{% endblock %}

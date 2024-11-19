@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+        color: black;
+        text-align: center;
+        padding-top: 50px;
+    }
+    h1 {
+        margin-bottom: 30px;
+    }
+</style>
+
+<h1>Welcome, {{ owner_name }}!</h1>
+<p class="lead">Here’s an overview of your properties and tenants.</p>
+
+<!-- Display aggregate information -->
+<p>Total Rooms Owned: {{ total_rooms }}</p>
+<p>Total Tenants: {{ total_tenants }}</p>
+
+<!-- Alerts for messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert" id="flash-message">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- Buttons to Show Tables -->
+<div class="my-4">
+    <button class="btn btn-primary" onclick="toggleTable('roomsTable')">Rooms Owned</button>
+    <button class="btn btn-secondary" onclick="toggleTable('tenantsTable')">Tenants Information</button>
+</div>
+
+<!-- Rooms Owned Table -->
+<div id="roomsTable" class="table-responsive" style="display: none;">
+    <table class="table table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Block Number</th>
+                <th>Room Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if rooms %}
+                {% for room in rooms %}
+                    <tr>
+                        <td>{{ room.room_no }}</td>
+                        <td>{{ room.block_no }}</td>
+                        <td>{{ room.type }}</td>  <!-- Display the room type -->
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">No rooms owned.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+
+<!-- Tenants Information Table -->
+<div id="tenantsTable" class="table-responsive" style="display: none;">
+    <table class="table table-bordered table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Tenant Name</th>
+                <th>Room Number</th>
+                <th>Block Number</th>
+                <th>Agreement Status</th>
+                <th>Agreement Expiration Date</th>
+                <th>Rent Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if tenants %}
+                {% for tenant, room, payment_status in tenants %}
+                    <tr>
+                        <td>{{ tenant.ten_name }}</td>
+                        <td>{{ tenant.room_no }}</td>
+                        <td>{{ room.block_no }}</td>
+                        <td>{{ tenant.rental_agreement_status }}</td>
+                        <td>{{ tenant.agreement_expiration_date.strftime('%Y-%m-%d') if tenant.agreement_expiration_date else 'N/A' }}</td>
+                        <td>{{ payment_status if payment_status else 'N/A' }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">No tenants available.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+<!-- JavaScript for Toggling Tables and Auto-Dismiss Flash Messages -->
+<script>
+    function toggleTable(tableId) {
+        var table = document.getElementById(tableId);
+        table.style.display = table.style.display === "none" ? "block" : "none";
+    }
+
+    setTimeout(function() {
+        const flashMessage = document.getElementById('flash-message');
+        if (flashMessage) {
+            flashMessage.classList.remove('show');
+            flashMessage.classList.add('fade');
+            flashMessage.addEventListener('transitionend', () => flashMessage.remove());
+        }
+    }, 2000);  // 2000 milliseconds = 2 seconds
+</script>
+
+{% endblock %}

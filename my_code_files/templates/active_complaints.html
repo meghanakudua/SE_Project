@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Active Complaints</h2>
+    <ul class="list-group">
+        {% for complaint in complaints %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ complaint.details }}
+                <form method="POST" action="{{ url_for('resolve_complaint', emp_id=employee.emp_id, complaint_id=complaint.complaint_id) }}">
+                    <button type="submit" class="btn btn-success btn-sm">Resolve</button>
+                </form>
+            </li>
+        {% else %}
+            <li class="list-group-item">No active complaints available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

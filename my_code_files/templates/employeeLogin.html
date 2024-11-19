@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Employee Login</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <!-- Employee ID Field -->
+        <div class="form-group mb-3">
+            {{ form.emp_id.label(class="form-label") }}
+            {{ form.emp_id(class="form-control") }}
+            {% for error in form.emp_id.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group mb-3">
+            {{ form.emp_pass.label(class="form-label") }}
+            {{ form.emp_pass(class="form-control") }}
+            {% for error in form.emp_pass.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+            {{ form.submit(class="btn btn-primary btn-block") }}
+        </div>
+    </form>
+</div>
+{% endblock %}
